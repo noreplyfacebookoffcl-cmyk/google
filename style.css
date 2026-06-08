@@ -1,0 +1,275 @@
+/* --- RESET & ROOT --- */
+* { 
+    box-sizing: border-box; 
+    -webkit-font-smoothing: antialiased; 
+}
+
+:root {
+    --bg-color: #0E0E0E;
+    --outer-bg: #1f1f1f;
+    --card-bg: #0E0E0E;
+    --text-main: #e3e3e3;
+    --text-sub: #c4c7c5;
+    --input-border: #8e918f;
+    --input-focus: #a8c7fa;
+    --error-color: #f2b8b5;
+    --btn-bg: #a8c7fa;
+    --btn-text: #062e6f;
+}
+
+body {
+    margin: 0; padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Roboto', sans-serif;
+    display: flex; flex-direction: column;
+    align-items: center; min-height: 100vh;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease;
+}
+
+/* --- LOADING BAR --- */
+#loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 3px;
+    z-index: 2000; overflow: hidden; display: none;
+}
+.bar {
+    width: 100%; height: 100%; background: var(--input-focus);
+    animation: loading-move 0.8s infinite linear;
+}
+@keyframes loading-move {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* --- CONTAINER --- */
+.container {
+    width: 100%; max-width: 448px; 
+    margin-top: 26px;
+    position: relative;
+    background-color: var(--card-bg);
+    overflow: hidden; 
+}
+
+@media (min-width: 601px) {
+    body { 
+        background-color: var(--outer-bg); 
+        /* Memastikan body mengambil seluruh tinggi layar */
+        height: 100vh;
+        /* Center horizontal & vertikal */
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+    }
+    
+    .container { 
+        border: 1px solid #3c4043; 
+        border-radius: 28px; 
+        /* PENTING: Hapus margin-top bawaan mobile agar tidak narik ke atas */
+        margin-top: 0; 
+        padding: 48px 0 36px;
+        background-color: var(--card-bg);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+        /* Mencegah footer nabrak kalau layar laptop pendek */
+        position: relative;
+    }
+
+    /* Footer di laptop dibuat melayang di bawah atau nempel container */
+    .footer {
+        position: absolute;
+        bottom: -60px; /* Jarak di bawah kotak login */
+        width: 100%;
+        max-width: 448px;
+    }
+}
+
+/* --- HEADER SECTION --- */
+.header-static { padding: 0 24px; width: 100%; box-sizing: border-box; }
+.logo { height: 48px; margin-bottom: 32px; display: flex; }
+.logo svg { width: 44px; height: 44px; }
+h1 { 
+    font-size: 32px; /* Lebih kecil & elegan */
+    font-weight: 400; 
+    margin: 0 0 10px; 
+}
+#subTitle { 
+    font-size: 17px; 
+    margin-bottom: 32px; /* Jarak ke kotak input lebih rapat */
+    line-height: 1.4;
+}
+
+/* --- USER PILL --- */
+.user-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 4px 12px 4px 10px; border: 1px solid #3c4043;
+    border-radius: 20px; cursor: pointer; margin-bottom: 32px;
+    background: transparent; outline: none; display: none;
+}
+.user-pill span { font-size: 14px; font-weight: 500; color: #e3e3e3; }
+.user-pill .arrow-icon { margin-left: auto; width: 14px; height: 14px; fill: #c4c7c5; }
+
+/* --- SLIDER RAIL --- */
+.slider-rail { display: flex; width: 200%; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.form-page { width: 50%; padding: 0 24px; box-sizing: border-box; flex-shrink: 0; }
+
+/* --- INPUTS & LABELS --- */
+/* --- INPUTS & LABELS (SINKRONISASI TOTAL) --- */
+/* --- INPUTS & LABELS (FIXED SIZE & NO SHAKE) --- */
+.form-group { position: relative; margin-bottom: 8px; height: 56px; }
+
+input {
+    width: 100%; 
+    padding: 18px; 
+    font-size: 16px;
+    font-family: inherit;
+    
+    /* REVISI: Ketikan dibuat Tebal/Medium */
+    font-weight: 10; 
+    color: #e3e3e3;
+    letter-spacing: 0.2px;
+    
+    border: 1px solid var(--input-border); 
+    border-radius: 4px;
+    background: transparent; 
+    outline: none; 
+    box-sizing: border-box;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+/* 1. Saat FOKUS (Ngetik Biasa) */
+input:focus { 
+    border: 2px solid var(--input-focus); 
+    padding: 17px; 
+    color: #E3E3E3;            /* Saat fokus, tulisan boleh sedikit lebih terang */
+}
+
+/* 2. Saat ERROR */
+input.error-input, 
+input.error-input:focus {
+    border: 2px solid var(--error-color) !important;
+    padding: 17px; /* DIKURANGI 1px juga di sini */
+}
+
+.label {
+    position: absolute; 
+    left: 12px; 
+    top: 18px; /* Sama dengan padding input agar pas di tengah saat diam */
+    color: var(--text-sub); 
+    transition: 0.2s; 
+    background: var(--card-bg);
+    padding: 0 5px; 
+    pointer-events: none;
+}
+
+/* --- LOGIKA SINKRONISASI LABEL --- */
+
+/* A. Label saat pindah ke atas (Dibuat lebih pas) */
+/* --- LOGIKA SINKRONISASI LABEL (REVISI) --- */
+
+/* A. Label saat pindah ke atas (Ditambah kondisi :focus) */
+input:focus + .label, 
+input:not(:placeholder-shown) + .label {
+    top: -10px;    /* Sesuaikan agar pas di tengah garis border */
+    font-size: 12px;
+    background: var(--card-bg); /* Biar nutupin garis border di belakangnya */
+}
+
+/* B. Warna Label saat dicolok/FOKUS (Ikut Biru) */
+input:focus + .label {
+    color: var(--input-focus);
+}
+
+/* C. Warna Label saat ERROR (Ikut Merah) */
+input.error-input + .label,
+input.error-input:focus + .label {
+    color: var(--error-color) !important;
+}
+
+/* D. Warna Label saat TIDAK FOKUS tapi ada isinya (Ikut warna border default/abu-abu) */
+input:not(:focus):not(.error-input):not(:placeholder-shown) + .label {
+    color: var(--input-border);
+}
+
+/* --- ERROR TEXT MESSAGE --- */
+.error-text { 
+    color: var(--error-color); font-size: 12px; 
+    margin-top: 8px; margin-bottom: 24px;
+    display: none; align-items: center; gap: 8px;
+}
+
+/* --- ACTIONS (TOMBOL & LINK) --- */
+.checkbox-row { display: flex; align-items: center; gap: 12px; margin: 16px 0 40px 4px; cursor: pointer; }
+.checkbox-row input { width: 18px; height: 18px; accent-color: var(--input-focus); }
+.checkbox-row label { font-size: 14px; color: var(--text-main); cursor: pointer; }
+
+/* --- ACTIONS (REVISI FINAL) --- */
+.actions { 
+    display: flex;           /* Ganti dari GRID ke FLEX */
+    justify-content: space-between; 
+    align-items: center; 
+    margin-top: 53px; 
+}
+
+.btn-link {
+    color: var(--input-focus);
+    text-decoration: none;
+    font-size: 14.3px;
+    font-weight: 500;
+    letter-spacing: 0.19px;
+    cursor: pointer;
+    
+    /* Hover rapi & pas di teks */
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    margin-left: -12px;     /* Tarik ke kiri agar teks lurus dengan input */
+    
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.btn-link:hover {
+    background-color: rgba(168, 199, 250, 0.1); 
+}
+
+.btn-link:active {
+    background-color: rgba(168, 199, 250, 0.2);
+}
+.btn-next {
+    background: var(--btn-bg); 
+    color: var(--btn-text);
+    padding: 0 24px;      /* Memberi kesan lebar ke samping */
+    height: 40px;         /* REVISI: Pendekkan agar tidak jangkung */
+    border-radius: 20px;  /* Setengah dari height agar membulat rapi */
+    border: none; 
+    cursor: pointer;
+
+    /* SETTING FONT AGAR HURUF "B" TERLIHAT LEBAR & NAPAK */
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;      
+    font-weight: 480;     
+    letter-spacing: 0.4px; /* REVISI: Ditambah agar huruf tidak terlihat kurus */
+    line-height: 1;       /* REVISI: Menekan tinggi baris huruf */
+    
+    /* Centering Teks Sempurna */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.btn-next:hover {
+    filter: brightness(0.95); /* Efek saat disentuh */
+}
+
+/* --- FOOTER --- */
+.footer {
+    width: 100%; max-width: 448px; margin-top: auto; 
+    padding: 24px; box-sizing: border-box;
+    display: flex; justify-content: space-between; 
+    font-size: 12px; color: var(--text-sub);
+}
+.location { display: flex; align-items: center; gap: 4px; }
+.footer-left-arrow { fill: currentColor; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { color: currentColor; text-decoration: none; }
